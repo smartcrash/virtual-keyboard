@@ -12,10 +12,15 @@ const keyColor = (key: string) => {
       return "red";
     case "backspace":
     case "tab":
-    case "shift":
+    case "shiftleft":
+    case "shiftright":
     case "capslock":
     case "alt":
+    case "altright":
+    case "altleft":
     case "control":
+    case "controlleft":
+    case "controlright":
     case "command":
       return "blue";
     case " ":
@@ -30,13 +35,19 @@ const keyWidth = (key: string) => {
     case "backspace":
     case "tab":
       return "176px";
-    case "shift":
+    case "shiftleft":
+    case "shiftright":
       return "186px";
     case "enter":
     case "capslock":
       return "153px";
     case "alt":
+    case "altright":
+    case "altleft":
     case "control":
+    case "controlright":
+    case "controlleft":
+    case "controlright":
       return "80px";
     case "command":
       return "112px";
@@ -45,25 +56,9 @@ const keyWidth = (key: string) => {
   }
 };
 
-const getKbd = (keyCode: number): HTMLDivElement | null =>
-  document.querySelector(`[data-keycode="${keyCode}"]`);
-
 function Keyboard({ onKeyDown = () => {} }: Props) {
   useEventListener("keydown", (event) => {
     event.preventDefault();
-
-    const keyCode = keyCodes[event.key.toLowerCase()];
-    const element = getKbd(keyCode);
-
-    element?.click();
-    element?.focus();
-  });
-
-  useEventListener("keyup", ({ key }) => {
-    const keyCode = keyCodes[key.toLowerCase()];
-    const element = getKbd(keyCode);
-
-    element?.blur();
   });
 
   return (
@@ -73,13 +68,14 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
           {keysRow.map((key, keyIndex) => {
             return (
               <Kbd
+                code={key}
+                keyCode={keyCodes[key]}
+                variant={keyColor(key)}
                 width={keyWidth(key)}
                 key={`${index}-${keyIndex}`}
-                variant={keyColor(key)}
                 onClick={() => onKeyDown(key)}
                 zIndex={index}
                 data-testid={keyCodes[key]}
-                data-keycode={keyCodes[key]}
               >
                 {key}
               </Kbd>
@@ -95,9 +91,12 @@ export const keyCodes: Record<string | number, number> = {
   backspace: 8,
   tab: 9,
   enter: 13,
-  shift: 16,
-  control: 17,
-  alt: 18,
+  shiftright: 16,
+  shiftleft: 16,
+  controlleft: 17,
+  controlright: 17,
+  altright: 18,
+  altleft: 18,
   capslock: 20,
   " ": 32,
   0: 48,
@@ -168,8 +167,16 @@ export const keysLayout = [
   ],
   ["tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\"],
   ["capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l", ":", "'", "enter"],
-  ["shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "shift"],
-  ["control", "alt", "command", " ", "command", "alt", "control"],
+  ["shiftleft", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "shiftright"],
+  [
+    "controlleft",
+    "altleft",
+    "command",
+    " ",
+    "command",
+    "altright",
+    "controlright",
+  ],
 ];
 
 export default Keyboard;

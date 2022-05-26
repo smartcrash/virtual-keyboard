@@ -1,9 +1,17 @@
-import { Box, BoxProps, Center } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Center,
+  useDisclosure,
+  useEventListener,
+} from "@chakra-ui/react";
 import { MouseEventHandler, useState } from "react";
 import useSound from "use-sound";
 import keyPressSound from "./sounds/key-press.wav";
 
 interface Props extends BoxProps {
+  code: string;
+  keyCode: number;
   variant?: keyof typeof themes;
 }
 
@@ -11,9 +19,16 @@ function Kbd({
   width = `64px`,
   variant = "light",
   onClick = () => {},
+  code,
+  keyCode,
   children,
   ...props
 }: Props) {
+  const {
+    isOpen: isPressed,
+    onOpen: onKeyDown,
+    onClose: onKeyUp,
+  } = useDisclosure();
   const [playbackRate, setPlaybackRate] = useState(0.85);
   const [play] = useSound(keyPressSound, {
     playbackRate,
@@ -23,9 +38,28 @@ function Kbd({
     interrupt: true,
   });
 
-  const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
+  const checkKey = (event: KeyboardEvent): boolean =>
+    (code === event.code.toLowerCase() || code === event.key.toLowerCase()) &&
+    keyCode === event.keyCode;
+
+  const playSound = () => {
     setPlaybackRate(random(0.85, 1));
     play();
+  };
+
+  useEventListener("keydown", (event) => {
+    if (checkKey(event)) {
+      playSound();
+      onKeyDown();
+    }
+  });
+
+  useEventListener("keyup", (event) => {
+    if (checkKey(event)) onKeyUp();
+  });
+
+  const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
+    playSound();
     onClick(event);
   };
 
@@ -38,8 +72,8 @@ function Kbd({
       borderBottomWidth={20}
       borderLeftWidth={6}
       borderRightWidth={6}
-      _active={{ transform: "translateY(5px)" }}
-      _focus={{ transform: "translateY(5px)", outline: "none" }}
+      transform={isPressed ? "translateY(5px)" : undefined}
+      _active={{ transform: "translateY(5px)", outline: "none" }}
       fontSize={"md"}
       userSelect={"none"}
       tabIndex={1}

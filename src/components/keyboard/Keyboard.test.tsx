@@ -1,5 +1,5 @@
 import { vi } from "vitest";
-import { render, fireEvent, within } from "../../testUtils";
+import { fireEvent, render } from "../../testUtils";
 import Keyboard, { keyCodes } from "./Keyboard";
 
 describe("<Keyboard/>", () => {
@@ -10,7 +10,6 @@ describe("<Keyboard/>", () => {
       const element = getAllByTestId(keyCode)[0];
 
       expect(element).toBeDefined();
-      expect(within(element).getByText(key, { trim: false })).toBeDefined();
     });
   });
 
