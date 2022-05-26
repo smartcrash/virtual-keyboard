@@ -74,6 +74,7 @@ function Kbd({
       borderRightWidth={6}
       transform={isPressed ? "translateY(5px)" : undefined}
       _active={{ transform: "translateY(5px)", outline: "none" }}
+      _focus={{ outline: "none" }}
       fontSize={"md"}
       userSelect={"none"}
       tabIndex={1}

@@ -1,4 +1,4 @@
-import { HStack, useEventListener, VStack } from "@chakra-ui/react";
+import { HStack, VStack } from "@chakra-ui/react";
 import Kbd from "./Kbd";
 
 interface Props {
@@ -30,6 +30,13 @@ const keyColor = (key: string) => {
   }
 };
 
+const keyLabel = (key: string) => {
+  if (key.includes("shift")) return "shift";
+  if (key.includes("control")) return "ctrl";
+  if (key.includes("alt")) return "alt";
+  return key;
+};
+
 const keyWidth = (key: string) => {
   switch (key) {
     case "backspace":
@@ -41,11 +48,8 @@ const keyWidth = (key: string) => {
     case "enter":
     case "capslock":
       return "153px";
-    case "alt":
     case "altright":
     case "altleft":
-    case "control":
-    case "controlright":
     case "controlleft":
     case "controlright":
       return "80px";
@@ -57,30 +61,24 @@ const keyWidth = (key: string) => {
 };
 
 function Keyboard({ onKeyDown = () => {} }: Props) {
-  useEventListener("keydown", (event) => {
-    event.preventDefault();
-  });
-
   return (
     <VStack spacing={-1}>
       {keysLayout.map((keysRow, index) => (
         <HStack key={index} spacing={0.5}>
-          {keysRow.map((key, keyIndex) => {
-            return (
-              <Kbd
-                code={key}
-                keyCode={keyCodes[key]}
-                variant={keyColor(key)}
-                width={keyWidth(key)}
-                key={`${index}-${keyIndex}`}
-                onClick={() => onKeyDown(key)}
-                zIndex={index}
-                data-testid={keyCodes[key]}
-              >
-                {key}
-              </Kbd>
-            );
-          })}
+          {keysRow.map((key, keyIndex) => (
+            <Kbd
+              code={key}
+              keyCode={keyCodes[key]}
+              variant={keyColor(key)}
+              width={keyWidth(key)}
+              key={`${index}-${keyIndex}`}
+              onClick={() => onKeyDown(key)}
+              zIndex={index}
+              data-testid={keyCodes[key]}
+            >
+              {keyLabel(key)}
+            </Kbd>
+          ))}
         </HStack>
       ))}
     </VStack>
