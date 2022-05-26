@@ -1,74 +1,75 @@
-import { HStack, LightMode, list, VStack } from "@chakra-ui/react";
+import { HStack, useEventListener, VStack } from "@chakra-ui/react";
 import Kbd from "./Kbd";
 
 interface Props {
   onKeyDown?: (key: string) => void;
 }
 
+const keyColor = (key: string) => {
+  switch (key) {
+    case "~":
+    case "enter":
+      return "red";
+    case "backspace":
+    case "tab":
+    case "shift":
+    case "capslock":
+    case "alt":
+    case "ctrl":
+    case "command":
+      return "blue";
+
+    case "space":
+      return "dark";
+    default:
+      return "light";
+  }
+};
+
+const keyWidth = (key: string) => {
+  switch (key) {
+    case "backspace":
+    case "tab":
+      return "176px";
+    case "shift":
+      return "186px";
+    case "enter":
+    case "capslock":
+      return "153px";
+    case "alt":
+    case "ctrl":
+      return "80px";
+    case "command":
+      return "112px";
+    case "space":
+      return "478px";
+  }
+};
+
 function Keyboard({ onKeyDown = () => {} }: Props) {
+  useEventListener("keydown", (event) => {
+    console.log(event);
+
+    // const element = document.querySelectorAll(`[data-testid=${key}]`)[0];
+    // console.log(element?.click());
+  });
+
   return (
     <VStack spacing={-1}>
       {keysLayout.map((keysRow, index) => (
         <HStack key={index} spacing={0.5}>
           {keysRow.map((key, keyIndex) => {
-            let width: string | undefined = undefined;
-            let variant = "light";
-
-            switch (key) {
-              case "backspace":
-              case "tab":
-                width = "176px";
-                break;
-
-              case "shift":
-                width = "186px";
-                break;
-
-              case "enter":
-              case "capslk":
-                width = "153px";
-                break;
-
-              case "alt":
-              case "ctrl":
-                width = "80px";
-                break;
-              case "command":
-                width = "112px";
-                break;
-              case "space":
-                width = "478px";
-                break;
-            }
-
-            switch (key) {
-              case "~":
-              case "enter":
-                variant = "red";
-                break;
-
-              case "backspace":
-              case "tab":
-              case "shift":
-              case "capslk":
-              case "alt":
-              case "ctrl":
-              case "command":
-                variant = "blue";
-                break;
-
-              case "space":
-                variant = "dark";
-                break;
-            }
+            const width = keyWidth(key);
+            const variant = keyColor(key);
 
             return (
               <Kbd
                 width={width}
                 key={`${index}-${keyIndex}`}
-                variant={variant as any}
-                onClick={onKeyDown}
+                variant={variant}
+                onClick={() => onKeyDown(key)}
                 zIndex={index + 1}
+                data-testid={key}
               >
                 {key}
               </Kbd>
@@ -80,7 +81,7 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
   );
 }
 
-const keysLayout = [
+export const keysLayout = [
   [
     "~",
     "1",
@@ -98,7 +99,7 @@ const keysLayout = [
     "backspace",
   ],
   ["tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\"],
-  ["capslk", "a", "s", "d", "f", "g", "h", "j", "k", "l", ":", "'", "enter"],
+  ["capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l", ":", "'", "enter"],
   ["shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "shift"],
   ["ctrl", "alt", "command", "space", "command", "alt", "ctrl"],
 ];

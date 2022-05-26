@@ -1,66 +1,16 @@
 import { vi } from "vitest";
-import { render, fireEvent } from "../../testUtils";
-import Keyboard from "./Keyboard";
-
-const KEYS = [
-  "1",
-  "2",
-  "3",
-  "4",
-  "5",
-  "6",
-  "7",
-  "8",
-  "9",
-  "0",
-
-  "q",
-  "w",
-  "e",
-  "r",
-  "t",
-  "y",
-  "u",
-  "i",
-  "o",
-  "p",
-  "a",
-  "s",
-  "d",
-  "f",
-  "g",
-  "h",
-  "j",
-  "k",
-  "l",
-  "z",
-  "x",
-  "c",
-  "v",
-  "b",
-  "n",
-  "m",
-
-  ",",
-  ".",
-  "/",
-
-  "backspace",
-  "shift",
-  "capslk",
-  "enter",
-  "space",
-];
+import { render, fireEvent, within } from "../../testUtils";
+import Keyboard, { keysLayout } from "./Keyboard";
 
 describe("<Keyboard/>", () => {
   it("should show all keys", () => {
     const { getAllByTestId } = render(<Keyboard />);
 
-    KEYS.forEach((key) => {
+    keysLayout.flat().forEach((key) => {
       const element = getAllByTestId(key)[0];
 
       expect(element).toBeDefined();
-      expect(element.innerHTML).toMatch(new RegExp(`>${key}<`, "ig"));
+      expect(within(element).getByText(key)).toBeDefined();
     });
   });
 
