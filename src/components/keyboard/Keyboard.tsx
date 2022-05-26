@@ -15,11 +15,10 @@ const keyColor = (key: string) => {
     case "shift":
     case "capslock":
     case "alt":
-    case "ctrl":
+    case "control":
     case "command":
       return "blue";
-
-    case "space":
+    case " ":
       return "dark";
     default:
       return "light";
@@ -37,21 +36,20 @@ const keyWidth = (key: string) => {
     case "capslock":
       return "153px";
     case "alt":
-    case "ctrl":
+    case "control":
       return "80px";
     case "command":
       return "112px";
-    case "space":
+    case " ":
       return "478px";
   }
 };
 
 function Keyboard({ onKeyDown = () => {} }: Props) {
-  useEventListener("keydown", (event) => {
-    console.log(event);
-
-    // const element = document.querySelectorAll(`[data-testid=${key}]`)[0];
-    // console.log(element?.click());
+  useEventListener("keydown", ({ key }) => {
+    const keyCode = keyCodes[key.toLowerCase()];
+    const element = document.querySelectorAll(`[data-keycode="${keyCode}"]`)[0];
+    (element as HTMLDivElement)?.click();
   });
 
   return (
@@ -59,17 +57,15 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
       {keysLayout.map((keysRow, index) => (
         <HStack key={index} spacing={0.5}>
           {keysRow.map((key, keyIndex) => {
-            const width = keyWidth(key);
-            const variant = keyColor(key);
-
             return (
               <Kbd
-                width={width}
+                width={keyWidth(key)}
                 key={`${index}-${keyIndex}`}
-                variant={variant}
+                variant={keyColor(key)}
                 onClick={() => onKeyDown(key)}
                 zIndex={index + 1}
-                data-testid={key}
+                data-testid={keyCodes[key]}
+                data-keycode={keyCodes[key]}
               >
                 {key}
               </Kbd>
@@ -80,6 +76,64 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
     </VStack>
   );
 }
+
+export const keyCodes: Record<string | number, number> = {
+  backspace: 8,
+  tab: 9,
+  enter: 13,
+  shift: 16,
+  control: 17,
+  alt: 18,
+  capslock: 20,
+  " ": 32,
+  0: 48,
+  1: 49,
+  2: 50,
+  3: 51,
+  4: 52,
+  5: 53,
+  6: 54,
+  7: 55,
+  8: 56,
+  9: 57,
+  a: 65,
+  b: 66,
+  c: 67,
+  d: 68,
+  e: 69,
+  f: 70,
+  g: 71,
+  h: 72,
+  i: 73,
+  j: 74,
+  k: 75,
+  l: 76,
+  m: 77,
+  n: 78,
+  o: 79,
+  p: 80,
+  q: 81,
+  r: 82,
+  s: 83,
+  t: 84,
+  u: 85,
+  v: 86,
+  w: 87,
+  x: 88,
+  y: 89,
+  z: 90,
+  "+": 107,
+  "-": 109,
+  ",": 188,
+  ".": 190,
+  ":": 59,
+  "~": 192,
+  "/": 191,
+  "[": 219,
+  "\\": 220,
+  "]": 221,
+  "'": 222,
+};
 
 export const keysLayout = [
   [
@@ -101,7 +155,7 @@ export const keysLayout = [
   ["tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\"],
   ["capslock", "a", "s", "d", "f", "g", "h", "j", "k", "l", ":", "'", "enter"],
   ["shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "shift"],
-  ["ctrl", "alt", "command", "space", "command", "alt", "ctrl"],
+  ["control", "alt", "command", " ", "command", "alt", "control"],
 ];
 
 export default Keyboard;

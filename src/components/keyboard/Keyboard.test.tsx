@@ -1,16 +1,16 @@
 import { vi } from "vitest";
 import { render, fireEvent, within } from "../../testUtils";
-import Keyboard, { keysLayout } from "./Keyboard";
+import Keyboard, { keyCodes } from "./Keyboard";
 
 describe("<Keyboard/>", () => {
   it("should show all keys", () => {
     const { getAllByTestId } = render(<Keyboard />);
 
-    keysLayout.flat().forEach((key) => {
-      const element = getAllByTestId(key)[0];
+    Object.entries(keyCodes).forEach(([key, keyCode]) => {
+      const element = getAllByTestId(keyCode)[0];
 
       expect(element).toBeDefined();
-      expect(within(element).getByText(key)).toBeDefined();
+      expect(within(element).getByText(key, { trim: false })).toBeDefined();
     });
   });
 
@@ -19,7 +19,7 @@ describe("<Keyboard/>", () => {
 
     const { getByTestId } = render(<Keyboard onKeyDown={onKeyDown} />);
 
-    fireEvent.click(getByTestId("a"));
+    fireEvent.click(getByTestId(keyCodes["a"]));
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
     expect(onKeyDown).toHaveBeenLastCalledWith("a");
