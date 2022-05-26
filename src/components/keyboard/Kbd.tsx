@@ -39,8 +39,10 @@ function Kbd({
       borderLeftWidth={6}
       borderRightWidth={6}
       _active={{ transform: "translateY(5px)" }}
+      _focus={{ transform: "translateY(5px)", outline: "none" }}
       fontSize={"md"}
       userSelect={"none"}
+      tabIndex={1}
       onClick={handleClick}
       {...themes[variant]}
       {...props}

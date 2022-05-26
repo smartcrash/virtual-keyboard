@@ -45,11 +45,25 @@ const keyWidth = (key: string) => {
   }
 };
 
+const getKbd = (keyCode: number): HTMLDivElement | null =>
+  document.querySelector(`[data-keycode="${keyCode}"]`);
+
 function Keyboard({ onKeyDown = () => {} }: Props) {
-  useEventListener("keydown", ({ key }) => {
+  useEventListener("keydown", (event) => {
+    event.preventDefault();
+
+    const keyCode = keyCodes[event.key.toLowerCase()];
+    const element = getKbd(keyCode);
+
+    element?.click();
+    element?.focus();
+  });
+
+  useEventListener("keyup", ({ key }) => {
     const keyCode = keyCodes[key.toLowerCase()];
-    const element = document.querySelectorAll(`[data-keycode="${keyCode}"]`)[0];
-    (element as HTMLDivElement)?.click();
+    const element = getKbd(keyCode);
+
+    element?.blur();
   });
 
   return (
@@ -63,7 +77,7 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
                 key={`${index}-${keyIndex}`}
                 variant={keyColor(key)}
                 onClick={() => onKeyDown(key)}
-                zIndex={index + 1}
+                zIndex={index}
                 data-testid={keyCodes[key]}
                 data-keycode={keyCodes[key]}
               >
