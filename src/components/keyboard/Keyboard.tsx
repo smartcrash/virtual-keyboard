@@ -7,33 +7,33 @@ interface Props {
 
 function Keyboard({ onKeyDown = () => {} }: Props) {
   return (
-    <VStack spacing={0}>
+    <VStack spacing={-1}>
       {keysLayout.map((keysRow, index) => (
         <HStack key={index} spacing={0.5}>
           {keysRow.map((key, keyIndex) => {
-            let width: any = undefined;
+            let width: string | undefined = undefined;
 
             switch (key) {
               case "backspace":
               case "tab":
               case "shift":
-                width = 44;
+                width = "176px";
                 break;
 
               case "enter":
               case "capslk":
-                width = "149px";
+                width = "153px";
                 break;
 
               case "alt":
               case "ctrl":
-                width = 24;
+                width = "80px";
                 break;
               case "command":
-                width = 24;
+                width = "112px";
                 break;
               case "space":
-                width = 96;
+                width = "478px";
                 break;
             }
 

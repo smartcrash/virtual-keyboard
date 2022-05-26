@@ -36,14 +36,19 @@ interface Props extends Omit<BoxProps, "onClick" | "children"> {
   children: string;
 }
 
-function Kbd({ width = 16, onClick = () => {}, children, ...props }: Props) {
+function Kbd({
+  width = `64px`,
+  onClick = () => {},
+  children,
+  ...props
+}: Props) {
   return (
     <Box
-      w={width}
-      h={16}
+      width={width}
+      height={`64px`}
       borderRadius={"md"}
-      borderTopWidth={3}
-      borderBottomWidth={18}
+      borderTopWidth={0}
+      borderBottomWidth={20}
       borderLeftWidth={6}
       borderRightWidth={6}
       _active={{ transform: "translateY(5px)" }}
