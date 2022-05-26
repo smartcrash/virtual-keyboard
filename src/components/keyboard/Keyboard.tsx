@@ -1,4 +1,4 @@
-import { HStack, VStack } from "@chakra-ui/react";
+import { HStack, LightMode, list, VStack } from "@chakra-ui/react";
 import Kbd from "./Kbd";
 
 interface Props {
@@ -12,12 +12,16 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
         <HStack key={index} spacing={0.5}>
           {keysRow.map((key, keyIndex) => {
             let width: string | undefined = undefined;
+            let variant = "light";
 
             switch (key) {
               case "backspace":
               case "tab":
-              case "shift":
                 width = "176px";
+                break;
+
+              case "shift":
+                width = "186px";
                 break;
 
               case "enter":
@@ -37,10 +41,32 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
                 break;
             }
 
+            switch (key) {
+              case "~":
+              case "enter":
+                variant = "red";
+                break;
+
+              case "backspace":
+              case "tab":
+              case "shift":
+              case "capslk":
+              case "alt":
+              case "ctrl":
+              case "command":
+                variant = "blue";
+                break;
+
+              case "space":
+                variant = "dark";
+                break;
+            }
+
             return (
               <Kbd
                 width={width}
                 key={`${index}-${keyIndex}`}
+                variant={variant as any}
                 onClick={onKeyDown}
                 zIndex={index + 1}
               >
@@ -73,7 +99,7 @@ const keysLayout = [
   ],
   ["tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\"],
   ["capslk", "a", "s", "d", "f", "g", "h", "j", "k", "l", ":", "'", "enter"],
-  ["shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "?", ",", ".", "/"],
+  ["shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "shift"],
   ["ctrl", "alt", "command", "space", "command", "alt", "ctrl"],
 ];
 

@@ -32,12 +32,14 @@ const themes = {
 } as const;
 
 interface Props extends Omit<BoxProps, "onClick" | "children"> {
+  variant?: keyof typeof themes;
   onClick: (key: string) => void;
   children: string;
 }
 
 function Kbd({
   width = `64px`,
+  variant = "light",
   onClick = () => {},
   children,
   ...props
@@ -57,7 +59,7 @@ function Kbd({
       userSelect={"none"}
       data-testid={children}
       onClick={() => onClick(children)}
-      {...themes["light"]}
+      {...themes[variant]}
       {...props}
     >
       <Center h={"full"}>{children}</Center>
