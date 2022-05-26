@@ -1,12 +1,10 @@
 import { Box, BoxProps, Center } from "@chakra-ui/react";
-import { useState } from "react";
+import { MouseEventHandler, useState } from "react";
 import useSound from "use-sound";
 import keyPressSound from "./sounds/key-press.wav";
 
-interface Props extends Omit<BoxProps, "onClick" | "children"> {
+interface Props extends BoxProps {
   variant?: keyof typeof themes;
-  onClick: (key: string) => void;
-  children: string;
 }
 
 function Kbd({
@@ -25,10 +23,10 @@ function Kbd({
     interrupt: true,
   });
 
-  const handleClick = () => {
+  const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
     setPlaybackRate(random(0.85, 1));
     play();
-    onClick(children);
+    onClick(event);
   };
 
   return (
@@ -41,10 +39,8 @@ function Kbd({
       borderLeftWidth={6}
       borderRightWidth={6}
       _active={{ transform: "translateY(5px)" }}
-      fontFamily={"monospace"}
       fontSize={"md"}
       userSelect={"none"}
-      data-testid={children}
       onClick={handleClick}
       {...themes[variant]}
       {...props}
