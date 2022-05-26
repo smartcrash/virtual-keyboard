@@ -11,21 +11,34 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
       {keysLayout.map((keysRow, index) => (
         <HStack key={index}>
           {keysRow.map((key) => {
-            let w: number | undefined = undefined;
+            let width: any = undefined;
 
             switch (key) {
               case "backspace":
+              case "tab":
+              case "shift":
+                width = 44;
+                break;
+
               case "enter":
               case "capslk":
-                w = 40;
+                width = "149px";
+                break;
+
+              case "alt":
+              case "ctrl":
+                width = 24;
+                break;
+              case "command":
+                width = 24;
                 break;
               case "space":
-                w = 96;
+                width = 96;
                 break;
             }
 
             return (
-              <Kbd width={w} testId={key} key={key} onClick={onKeyDown}>
+              <Kbd width={width} testId={key} key={key} onClick={onKeyDown}>
                 {key}
               </Kbd>
             );
@@ -37,11 +50,26 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
 }
 
 const keysLayout = [
-  ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "backspace"],
-  ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-  ["capslk", "a", "s", "d", "f", "g", "h", "j", "k", "l", "enter"],
-  ["z", "x", "c", "v", "b", "n", "m", ",", ".", "?"],
-  ["space"],
+  [
+    "~",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "0",
+    "-",
+    "+",
+    "backspace",
+  ],
+  ["tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\"],
+  ["capslk", "a", "s", "d", "f", "g", "h", "j", "k", "l", ":", "'", "enter"],
+  ["shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "?", ",", ".", "/"],
+  ["ctrl", "alt", "command", "space", "command", "alt", "ctrl"],
 ];
 
 export default Keyboard;

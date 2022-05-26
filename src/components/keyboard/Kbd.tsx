@@ -6,7 +6,7 @@ function Kbd({
   testId,
   children,
 }: {
-  width?: number;
+  width?: any;
   onClick: (key: string) => void;
   testId?: string;
   children: string;
@@ -15,6 +15,8 @@ function Kbd({
     <Box
       w={width}
       h={14}
+      flexShrink={0}
+      flexGrow={1}
       textAlign={"center"}
       borderColor={"gray"}
       borderRadius={"lg"}
