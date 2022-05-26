@@ -7,10 +7,10 @@ interface Props {
 
 function Keyboard({ onKeyDown = () => {} }: Props) {
   return (
-    <VStack>
+    <VStack spacing={0}>
       {keysLayout.map((keysRow, index) => (
-        <HStack key={index}>
-          {keysRow.map((key) => {
+        <HStack key={index} spacing={0.5}>
+          {keysRow.map((key, keyIndex) => {
             let width: any = undefined;
 
             switch (key) {
@@ -38,7 +38,12 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
             }
 
             return (
-              <Kbd width={width} testId={key} key={key} onClick={onKeyDown}>
+              <Kbd
+                width={width}
+                key={`${index}-${keyIndex}`}
+                onClick={onKeyDown}
+                zIndex={index + 1}
+              >
                 {key}
               </Kbd>
             );

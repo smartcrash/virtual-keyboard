@@ -53,10 +53,10 @@ const KEYS = [
 
 describe("<Keyboard/>", () => {
   it("should show all keys", () => {
-    const { getByTestId } = render(<Keyboard />);
+    const { getAllByTestId } = render(<Keyboard />);
 
     KEYS.forEach((key) => {
-      const element = getByTestId(key);
+      const element = getAllByTestId(key)[0];
 
       expect(element).toBeDefined();
       expect(element.innerHTML).toMatch(new RegExp(`>${key}<`, "ig"));
