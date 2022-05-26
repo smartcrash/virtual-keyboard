@@ -43,9 +43,10 @@ const KEYS = [
 
   ",",
   ".",
-  "?",
+  "/",
 
   "backspace",
+  "shift",
   "capslk",
   "enter",
   "space",

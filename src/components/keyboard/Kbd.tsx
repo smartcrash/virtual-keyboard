@@ -1,4 +1,59 @@
 import { Box, BoxProps, Center } from "@chakra-ui/react";
+import { useState } from "react";
+import useSound from "use-sound";
+import keyPressSound from "./sounds/key-press.wav";
+
+interface Props extends Omit<BoxProps, "onClick" | "children"> {
+  variant?: keyof typeof themes;
+  onClick: (key: string) => void;
+  children: string;
+}
+
+function Kbd({
+  width = `64px`,
+  variant = "light",
+  onClick = () => {},
+  children,
+  ...props
+}: Props) {
+  const [playbackRate, setPlaybackRate] = useState(0.85);
+  const [play] = useSound(keyPressSound, {
+    playbackRate,
+    // `interrupt` ensures that if the sound starts again before it's
+    // ended, it will truncate it. Otherwise, the sound can overlap.
+    interrupt: true,
+  });
+
+  const handleClick = () => {
+    setPlaybackRate(random(0.85, 1));
+    play();
+    onClick(children);
+  };
+
+  return (
+    <Box
+      width={width}
+      height={`64px`}
+      borderRadius={"md"}
+      borderTopWidth={0}
+      borderBottomWidth={20}
+      borderLeftWidth={6}
+      borderRightWidth={6}
+      _active={{ transform: "translateY(5px)" }}
+      fontFamily={"monospace"}
+      fontSize={"md"}
+      userSelect={"none"}
+      data-testid={children}
+      onClick={handleClick}
+      {...themes[variant]}
+      {...props}
+    >
+      <Center h={"full"}>{children}</Center>
+    </Box>
+  );
+}
+
+const random = (min: number, max: number) => Math.random() * (max - min) + min;
 
 const themes = {
   dark: {
@@ -30,41 +85,5 @@ const themes = {
     borderBottomColor: `cyan.800`,
   },
 } as const;
-
-interface Props extends Omit<BoxProps, "onClick" | "children"> {
-  variant?: keyof typeof themes;
-  onClick: (key: string) => void;
-  children: string;
-}
-
-function Kbd({
-  width = `64px`,
-  variant = "light",
-  onClick = () => {},
-  children,
-  ...props
-}: Props) {
-  return (
-    <Box
-      width={width}
-      height={`64px`}
-      borderRadius={"md"}
-      borderTopWidth={0}
-      borderBottomWidth={20}
-      borderLeftWidth={6}
-      borderRightWidth={6}
-      _active={{ transform: "translateY(5px)" }}
-      fontFamily={"monospace"}
-      fontSize={"md"}
-      userSelect={"none"}
-      data-testid={children}
-      onClick={() => onClick(children)}
-      {...themes[variant]}
-      {...props}
-    >
-      <Center h={"full"}>{children}</Center>
-    </Box>
-  );
-}
 
 export default Kbd;
