@@ -19,6 +19,7 @@ function Kbd({
   const [playbackRate, setPlaybackRate] = useState(0.85);
   const [play] = useSound(keyPressSound, {
     playbackRate,
+    volume: 0.25,
     // `interrupt` ensures that if the sound starts again before it's
     // ended, it will truncate it. Otherwise, the sound can overlap.
     interrupt: true,
