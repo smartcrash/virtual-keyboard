@@ -1,6 +1,11 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Divider, Text, keyframes } from "@chakra-ui/react";
 import { useState } from "react";
 import Keyboard from "./components/keyboard";
+
+const cursor = keyframes`
+  from { border-color: black; }
+  to { border-color: white; }
+`;
 
 function App() {
   const [text, setText] = useState("");
@@ -33,10 +38,16 @@ function App() {
         fontWeight={"bold"}
         data-testid={"textinput"}
         whiteSpace={"pre-wrap"}
-        mb={10}
+        display={"inline"}
+        pr={1}
+        borderRightWidth={12}
+        animation={`${cursor} infinite 800ms linear`}
       >
         {text}
       </Text>
+
+      <Divider h={10} />
+
       <Keyboard onKeyDown={onKeyDown} />
     </Box>
   );
