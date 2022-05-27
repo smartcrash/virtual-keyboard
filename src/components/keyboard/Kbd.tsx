@@ -12,13 +12,14 @@ import keyPressSound from "./sounds/key-press.wav";
 interface Props extends BoxProps {
   code: string;
   keyCode: number;
+  onPress: (key: string) => void;
   variant?: keyof typeof themes;
 }
 
 function Kbd({
   width = `64px`,
   variant = "light",
-  onClick = () => {},
+  onPress = () => {},
   code,
   keyCode,
   children,
@@ -51,6 +52,7 @@ function Kbd({
     if (checkKey(event)) {
       playSound();
       onKeyDown();
+      onPress(code);
     }
   });
 
@@ -58,9 +60,9 @@ function Kbd({
     if (checkKey(event)) onKeyUp();
   });
 
-  const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
+  const handleClick: MouseEventHandler<HTMLDivElement> = () => {
     playSound();
-    onClick(event);
+    onPress(code);
   };
 
   return (

@@ -13,6 +13,21 @@ describe("<Keyboard/>", () => {
     });
   });
 
+  it("should be in sync with real keyboard, when a key is pressed `onKeyDown` should be triggeredd", async () => {
+    const onKeyDown = vi.fn();
+
+    const { container } = render(<Keyboard onKeyDown={onKeyDown} />);
+
+    fireEvent.keyDown(container, {
+      key: "A",
+      code: "KeyA",
+      keyCode: 65,
+    });
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1);
+    expect(onKeyDown).toHaveBeenCalledWith("a");
+  });
+
   it("should trigget `onKeyDown` when a key is pressed", async () => {
     const onKeyDown = vi.fn();
 

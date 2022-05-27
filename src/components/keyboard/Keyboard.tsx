@@ -72,7 +72,7 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
               variant={keyColor(key)}
               width={keyWidth(key)}
               key={`${index}-${keyIndex}`}
-              onClick={() => onKeyDown(key)}
+              onPress={onKeyDown}
               zIndex={index}
               data-testid={keyCodes[key]}
             >
