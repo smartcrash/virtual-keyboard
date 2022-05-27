@@ -1,4 +1,5 @@
 import { HStack, VStack } from "@chakra-ui/react";
+import { useRef } from "react";
 import Kbd from "./Kbd";
 
 interface Props {
@@ -61,6 +62,15 @@ const keyWidth = (key: string) => {
 };
 
 function Keyboard({ onKeyDown = () => {} }: Props) {
+  const capsLock = useRef(false);
+
+  const onPress = (key: string) => {
+    if (key === "capslock") capsLock.current = !capsLock.current;
+
+    if (capsLock.current && key.length === 1) onKeyDown(key.toUpperCase());
+    else onKeyDown(key);
+  };
+
   return (
     <VStack spacing={-1}>
       {keysLayout.map((keysRow, index) => (
@@ -72,7 +82,7 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
               variant={keyColor(key)}
               width={keyWidth(key)}
               key={`${index}-${keyIndex}`}
-              onPress={onKeyDown}
+              onPress={onPress}
               zIndex={index}
               data-testid={keyCodes[key]}
             >

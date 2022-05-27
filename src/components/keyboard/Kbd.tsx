@@ -52,7 +52,9 @@ function Kbd({
     if (checkKey(event)) {
       playSound();
       onKeyDown();
-      onPress(code);
+
+      // Uppercase if shift is pressed and this key is a letter
+      onPress(event.shiftKey && code.length === 1 ? code.toUpperCase() : code);
     }
   });
 

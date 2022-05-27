@@ -45,4 +45,18 @@ describe("<App/>", () => {
 
     expect(container.innerHTML.trim()).toEqual("");
   });
+
+  it("should toggle caps using the capslock key", async () => {
+    const { getByTestId, getAllByTestId } = render(<App />);
+
+    const container = getByTestId("textinput");
+
+    expect(container.innerHTML).toEqual("");
+
+    ["a", "a", "a", "capslock", "a", "a", "a"].forEach((key) =>
+      fireEvent.click(getAllByTestId(keyCodes[key])[0])
+    );
+
+    expect(container.innerHTML.trim()).toEqual("aaaAAA");
+  });
 });
