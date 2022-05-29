@@ -7,6 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { MouseEventHandler, useState } from "react";
 import useSound from "use-sound";
+import { random } from "../../helpers";
 import keyPressSound from "./sounds/key-press.wav";
 
 interface Props extends BoxProps {
@@ -91,8 +92,6 @@ function Kbd({
     </Box>
   );
 }
-
-const random = (min: number, max: number) => Math.random() * (max - min) + min;
 
 const themes = {
   dark: {

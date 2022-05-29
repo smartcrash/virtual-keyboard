@@ -1,14 +1,13 @@
-import { Box, Divider, Text, keyframes } from "@chakra-ui/react";
+import { Box, Divider, keyframes, Text } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import Keyboard from "./components/keyboard";
 import { keyCodes } from "./components/keyboard/Keyboard";
+import { pause } from "./helpers";
 
 const cursor = keyframes`
   from { border-color: black; }
   to { border-color: white; }
 `;
-
-const pause = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function App() {
   const [text, setText] = useState("");
