@@ -39,11 +39,13 @@ function Kbd({
     interrupt: true,
   });
 
+  // Takes an KeyboardEvent and check if match with this component's key
   const checkKey = (event: KeyboardEvent): boolean =>
     (code === event.code.toLowerCase() || code === event.key.toLowerCase()) &&
     keyCode === event.keyCode;
 
   const playSound = () => {
+    // Change sound speed/pitch each time to variety
     setPlaybackRate(random(0.85, 1));
     play();
   };
