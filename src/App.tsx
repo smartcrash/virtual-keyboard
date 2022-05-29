@@ -1,11 +1,14 @@
 import {
   Box,
+  ColorModeScript,
   Divider,
+  HStack,
   keyframes,
   Text,
   useEventListener,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
+import ColorModeSwitch from "./components/color-mode-switch";
 import Keyboard from "./components/keyboard";
 import { keyCodes } from "./constants";
 import { pause } from "./helpers";
@@ -75,8 +78,12 @@ function App() {
   }, []);
 
   return (
-    <Box as="main" w={"100vw"} h={"100vh"} bg={"gray.50"}>
-      <Box maxWidth={"1034px"} mx={"auto"} pt={20}>
+    <Box as="main" w={"100vw"} h={"100vh"}>
+      <Box maxWidth={"1034px"} mx={"auto"}>
+        <HStack justifyContent={"flex-end"} py={6}>
+          <ColorModeSwitch />
+        </HStack>
+
         <Text
           fontSize={"5xl"}
           fontFamily={"monospace"}
