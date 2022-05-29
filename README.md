@@ -1,3 +1,5 @@
+![screenshot](./screenshot.png)
+
 # Virtual Keyboard
 
 ⌨️ Mechanical Virtual Keyboard build with ⚛️ React
