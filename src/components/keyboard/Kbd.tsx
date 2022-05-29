@@ -123,6 +123,13 @@ const themes = {
     borderTopColor: `cyan.500`,
     borderBottomColor: `cyan.800`,
   },
+  gray: {
+    color: "white",
+    background: `gray.600`,
+    borderColor: `gray.700`,
+    borderTopColor: `gray.500`,
+    borderBottomColor: `gray.700`,
+  },
 } as const;
 
 export default Kbd;

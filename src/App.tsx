@@ -1,6 +1,5 @@
 import {
   Box,
-  ColorModeScript,
   Divider,
   HStack,
   keyframes,
@@ -29,6 +28,7 @@ function App() {
     if (key.includes("control")) return;
     if (key.includes("alt")) return;
     if (key === "capslock") return;
+    if (key === "command") return;
 
     setText((value) => {
       switch (key) {

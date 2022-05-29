@@ -1,4 +1,4 @@
-import { HStack, VStack } from "@chakra-ui/react";
+import { HStack, useColorMode, VStack } from "@chakra-ui/react";
 import { useRef } from "react";
 import { keyCodes } from "../../constants";
 import Kbd from "./Kbd";
@@ -7,28 +7,53 @@ interface Props {
   onKeyDown?: (key: string) => void;
 }
 
-const keyColor = (key: string) => {
-  switch (key) {
-    case "~":
-    case "enter":
-      return "red";
-    case "backspace":
-    case "tab":
-    case "shiftleft":
-    case "shiftright":
-    case "capslock":
-    case "alt":
-    case "altright":
-    case "altleft":
-    case "control":
-    case "controlleft":
-    case "controlright":
-    case "command":
-      return "blue";
-    case " ":
-      return "dark";
-    default:
-      return "light";
+const keyColor = (key: string, colorMode: "light" | "dark") => {
+  if (colorMode === "dark") {
+    switch (key) {
+      case "~":
+      case "enter":
+        return "red";
+      case "backspace":
+      case "tab":
+      case "shiftleft":
+      case "shiftright":
+      case "capslock":
+      case "alt":
+      case "altright":
+      case "altleft":
+      case "control":
+      case "controlleft":
+      case "controlright":
+      case "command":
+        return "gray";
+      case " ":
+        return "red";
+      default:
+        return "dark";
+    }
+  } else {
+    switch (key) {
+      case "~":
+      case "enter":
+        return "red";
+      case "backspace":
+      case "tab":
+      case "shiftleft":
+      case "shiftright":
+      case "capslock":
+      case "alt":
+      case "altright":
+      case "altleft":
+      case "control":
+      case "controlleft":
+      case "controlright":
+      case "command":
+        return "blue";
+      case " ":
+        return "dark";
+      default:
+        return "light";
+    }
   }
 };
 
@@ -63,6 +88,7 @@ const keyWidth = (key: string) => {
 };
 
 function Keyboard({ onKeyDown = () => {} }: Props) {
+  const { colorMode } = useColorMode();
   const capsLock = useRef(false);
 
   const onPress = (key: string) => {
@@ -80,7 +106,7 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
             <Kbd
               code={key}
               keyCode={keyCodes[key]}
-              variant={keyColor(key)}
+              variant={keyColor(key, colorMode)}
               width={keyWidth(key)}
               key={`${index}-${keyIndex}`}
               onPress={onPress}
