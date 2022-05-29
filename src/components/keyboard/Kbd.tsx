@@ -8,7 +8,6 @@ import {
 import { MouseEventHandler, useState } from "react";
 import useSound from "use-sound";
 import { random } from "../../helpers";
-import keyPressSound from "./sounds/key-press.wav";
 
 interface Props extends BoxProps {
   code: string;
@@ -32,7 +31,7 @@ function Kbd({
     onClose: onKeyUp,
   } = useDisclosure();
   const [playbackRate, setPlaybackRate] = useState(0.85);
-  const [play] = useSound(keyPressSound, {
+  const [play] = useSound("/sounds/key-press.wav", {
     playbackRate,
     volume: 0.25,
     // `interrupt` ensures that if the sound starts again before it's
