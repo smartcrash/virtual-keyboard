@@ -84,6 +84,7 @@ function Keyboard({ onKeyDown = () => {} }: Props) {
               key={`${index}-${keyIndex}`}
               onPress={onPress}
               zIndex={index}
+              data-keycode={keyCodes[key]}
               data-testid={keyCodes[key]}
             >
               {keyLabel(key)}
