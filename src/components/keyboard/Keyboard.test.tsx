@@ -1,6 +1,7 @@
 import { vi } from "vitest";
+import { keyCodes } from "../../constants";
 import { fireEvent, render } from "../../testUtils";
-import Keyboard, { keyCodes } from "./Keyboard";
+import Keyboard from "./Keyboard";
 
 describe("<Keyboard/>", () => {
   it("should show all keys", () => {

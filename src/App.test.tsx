@@ -1,5 +1,5 @@
 import App from "./App";
-import { keyCodes } from "./components/keyboard/Keyboard";
+import { keyCodes } from "./constants";
 import { render, fireEvent } from "./testUtils";
 
 describe("<App/>", () => {

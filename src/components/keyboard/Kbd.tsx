@@ -80,7 +80,8 @@ function Kbd({
       borderLeftWidth={6}
       borderRightWidth={6}
       transform={isPressed ? "translateY(5px)" : undefined}
-      _focus={{ transform: "translateY(5px)", outline: "none" }}
+      _active={{ transform: "translateY(5px)", outline: "none" }}
+      _focus={{ outline: "none" }}
       fontSize={"md"}
       userSelect={"none"}
       tabIndex={1}

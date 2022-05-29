@@ -1,7 +1,13 @@
-import { Box, Divider, keyframes, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Divider,
+  keyframes,
+  Text,
+  useEventListener,
+} from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import Keyboard from "./components/keyboard";
-import { keyCodes } from "./components/keyboard/Keyboard";
+import { keyCodes } from "./constants";
 import { pause } from "./helpers";
 
 const cursor = keyframes`
@@ -11,6 +17,9 @@ const cursor = keyframes`
 
 function App() {
   const [text, setText] = useState("");
+
+  // Prevent keypress default behavior
+  useEventListener("keypress", (event) => event.preventDefault());
 
   const onKeyDown = (key: string) => {
     if (key.includes("shift")) return;
@@ -34,7 +43,12 @@ function App() {
 
   const isTyping = useRef(false);
 
+  /* Simulate typing with the virtual keyboard for demostration */
   const typer = async (text: string) => {
+    // Do not run demostration on test enviroment
+    if (process.env.NODE_ENV === "test") return;
+
+    // Prevent running this function more than once at the same time
     if (isTyping.current) return;
 
     isTyping.current = true;
@@ -43,14 +57,16 @@ function App() {
 
     while (queue.length) {
       const key = queue.shift()!;
-      const kbd = document.querySelector(`[data-keycode="${keyCodes[key]}"]`);
+      const keyboardEventInit: KeyboardEventInit = {
+        key,
+        keyCode: keyCodes[key],
+      };
 
-      (kbd as HTMLDivElement | null)?.click();
-      (kbd as HTMLDivElement | null)?.focus();
-      await pause(50);
-      (kbd as HTMLDivElement | null)?.blur();
+      document.dispatchEvent(new KeyboardEvent("keydown", keyboardEventInit));
+      await pause(75);
+      document.dispatchEvent(new KeyboardEvent("keyup", keyboardEventInit));
 
-      await pause(150);
+      await pause(100);
     }
   };
 
@@ -59,25 +75,27 @@ function App() {
   }, []);
 
   return (
-    <Box maxWidth={"1034px"} mx={"auto"} pt={20}>
-      <Text
-        fontSize={"5xl"}
-        fontFamily={"monospace"}
-        fontWeight={"bold"}
-        data-testid={"textinput"}
-        // Simulate custom caret user right border and inline display
-        display={"inline"}
-        borderRightWidth={12}
-        whiteSpace={"pre-wrap"}
-        paddingRight={1}
-        animation={`${cursor} infinite 800ms linear`}
-      >
-        {text}
-      </Text>
+    <Box as="main" w={"100vw"} h={"100vh"} bg={"gray.50"}>
+      <Box maxWidth={"1034px"} mx={"auto"} pt={20}>
+        <Text
+          fontSize={"5xl"}
+          fontFamily={"monospace"}
+          fontWeight={"bold"}
+          data-testid={"textinput"}
+          // Simulate custom caret user right border and inline display
+          display={"inline"}
+          borderRightWidth={12}
+          whiteSpace={"pre-wrap"}
+          paddingRight={1}
+          animation={`${cursor} infinite 800ms linear`}
+        >
+          {text}
+        </Text>
 
-      <Divider h={10} />
+        <Divider bg={"transparent"} h={10} />
 
-      <Keyboard onKeyDown={onKeyDown} />
+        <Keyboard onKeyDown={onKeyDown} />
+      </Box>
     </Box>
   );
 }
