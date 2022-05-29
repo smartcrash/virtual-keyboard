@@ -95,6 +95,10 @@ function App() {
           whiteSpace={"pre-wrap"}
           paddingRight={1}
           animation={`${cursor} infinite 800ms linear`}
+          _before={{
+            content: "'›'",
+            mr: 2,
+          }}
         >
           {text}
         </Text>
