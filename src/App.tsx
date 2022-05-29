@@ -103,7 +103,7 @@ function App() {
           {text}
         </Text>
 
-        <Divider bg={"transparent"} h={10} />
+        <Divider borderWidth={0} bg={"transparent"} h={10} />
 
         <Keyboard onKeyDown={onKeyDown} />
       </Box>
